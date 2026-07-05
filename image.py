@@ -51,6 +51,7 @@ class TensorImage:
         path = os.path.join('images', self.listing_id)
         os.makedirs(path, exist_ok=True)
         torch.save(self.tensor, os.path.join(path, f"{self.hash}.pt"))
+        image.save(os.path.join(path, f"{self.hash}.jpg"))
 
 
 

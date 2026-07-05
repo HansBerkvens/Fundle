@@ -106,9 +106,8 @@ class PropertyGame:
         if self.df is not None:
             row = self.df.iloc[self.current]
             folder = os.path.join(IMAGES_DIR, str(row['listing_id']))
-            tensor = torch.load(os.path.join(folder, f"{row['hash']}.pt"), weights_only=True)
-            arr = (tensor.permute(1, 2, 0).numpy() * 255).astype("uint8")
-            photo = ImageTk.PhotoImage(Image.fromarray(arr).resize((DISPLAY_SIZE, DISPLAY_SIZE), Image.Resampling.LANCZOS))
+            image = Image.open(os.path.join(folder, f"{row['hash']}.jpg"))
+            photo = ImageTk.PhotoImage(image.resize((DISPLAY_SIZE, DISPLAY_SIZE), Image.Resampling.LANCZOS))
             self.img_label.config(image=photo)
             self.img_label.image = photo
             self.progress_var.set(f"{self.current + 1} / {self.n}")
