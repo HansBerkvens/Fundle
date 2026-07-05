@@ -1,0 +1,18 @@
+1. Get data and save
+- Fotos
+- Oppervlakte
+- Prijs
+- Energielabel
+- Stad
+- Kamers
+
+2. Sort pictures
+- Outside/Inside/Map
+
+3. Construct the game
+- Different information per round
+- Guess has to be within 10.000
+- Remember guess for high/lower
+
+4. Rounds
+- Outside pictures, scroll through, only go to next round upon guessing
