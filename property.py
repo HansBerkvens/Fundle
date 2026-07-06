@@ -59,7 +59,10 @@ def find_property_information_from_listing_url(driver: Driver, url: str):
     rooms = driver.find_element(By.XPATH,'//div[contains(@id, "category-indeling")]//dt[contains(normalize-space(.), "Aantal kamers")]/following-sibling::dd[1]').text
 
     energy_label = driver.find_element(By.XPATH,'//div[contains(@id, "category-energie")]//dt[contains(normalize-space(.), "Energielabel")]/following-sibling::dd[1]').text
-    return price, size, rooms, energy_label
+
+    location = driver.find_element(By.XPATH, '//div[@id="about"]/div[2]/div/div/h1/span[2]').text
+
+    return price, size, rooms, energy_label, location
 
 
 @dataclass
@@ -69,6 +72,7 @@ class Property:
     size: int
     rooms: str
     energy_label: str
+    location: str
     images: list[TensorImage]
 
     @classmethod
@@ -76,7 +80,7 @@ class Property:
         if listing_url.endswith('/'):
             listing_url = listing_url[:-1]
         listing_id = listing_url.split('/')[-1]
-        price, size, rooms, energy_label = find_property_information_from_listing_url(driver, listing_url)
+        price, size, rooms, energy_label, location = find_property_information_from_listing_url(driver, listing_url)
 
         image_urls = find_image_urls_from_listing(driver, listing_url)
         tensors: list[TensorImage] = create_tensors(listing_id, image_urls)
@@ -87,6 +91,7 @@ class Property:
             size=size,
             rooms=rooms,
             energy_label=energy_label,
+            location=location,
             images=tensors,
         )
 
@@ -97,6 +102,7 @@ class Property:
             'size': self.size,
             'rooms': self.rooms,
             'energy_label': self.energy_label,
+            'location': self.location,
             'image_url': [t.image_url for t in self.images],
             'hash': [t.hash for t in self.images],
             'class_prediction': [t.class_prediction for t in self.images],

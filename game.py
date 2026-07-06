@@ -5,6 +5,7 @@ import torch
 import tkinter as tk
 from PIL import ImageTk, Image
 import pyperclip
+import webbrowser
 
 MIN_CONFIDENCE = 0.8
 IMAGES_DIR = 'images'
@@ -26,6 +27,7 @@ class PropertyGame:
         self.true_price = int(dfs[0]['price'].values[0])
         self.size = int(dfs[0]['size'].values[0])
         self.rooms = dfs[0]['rooms'].values[0]
+        self.location = dfs[0]['location'].values[0]
         self.energy_label = dfs[0]['energy_label'].values[0]
         self.listing_id = dfs[0]['listing_id'].values[0]
 
@@ -57,6 +59,7 @@ class PropertyGame:
             ("Property size",   f"{self.size} m²"),
             ("Energy label",    self.energy_label),
             ("Number of rooms", str(self.rooms)),
+            ("Location", str(self.location)),
         ]
         for i, (label, value) in enumerate(rows):
             tk.Label(frame, text=label, font=("Arial", 12), anchor="w").grid(row=i, column=0, sticky="w", padx=5, pady=3)
@@ -99,8 +102,8 @@ class PropertyGame:
             self.progress_var.set("")
             self.result_var.set(f"The price was €{self.true_price:,}")
             url = f'https://www.funda.nl/detail/{self.listing_id}'
-            tk.Button(self.end_frame, text="Copy url (c)", width=15, command=lambda: pyperclip.copy(url)).pack()
-            self.root.bind("c", lambda e: pyperclip.copy(url))
+            tk.Button(self.end_frame, text="Open listing (o)", width=15, command=lambda: webbrowser.open(url)).pack()
+            self.root.bind("o", lambda e: webbrowser.open(url))
 
     def show_current(self):
         if self.df is not None:

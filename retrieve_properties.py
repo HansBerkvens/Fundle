@@ -55,8 +55,9 @@ if __name__ == '__main__':
     driver = open_driver()
     driver.get('https://www.funda.nl/zoeken/koop')
     listing_urls = get_urls_current_page(driver)
+    1/0
     for listing_url in listing_urls:
         property = Property.from_listing_id(driver, listing_url)
         property.to_csv()
 
-
+    driver.quit()
